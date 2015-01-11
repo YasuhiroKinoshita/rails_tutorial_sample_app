@@ -1,4 +1,5 @@
 class User < ActiveRecord::Base
+    has_many :microposts, dependent: :destroy
     before_save { self.email = email.downcase }
     before_create :create_ramdom_token
     validates :name, presence: true, length: { maximum: 50 }
@@ -20,4 +21,10 @@ class User < ActiveRecord::Base
         self.remember_token = User.encrypt(User.new_rememner_token)
     end
     private :create_ramdom_token
+
+    def feed
+        # このコードは準備段階
+        # 11章で完成する
+        Micropost.where("user_id = ?", id)
+    end
 end
